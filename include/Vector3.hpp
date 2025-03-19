@@ -13,8 +13,8 @@ namespace rtx
 		Vector3();
 		Vector3(float x, float y, float z);
 		Vector3(const Vector3& v);
-		Vector3(std::vector<float> v);
-		Vector3(float arr[3]);
+		explicit Vector3(const std::vector<float>& v);
+		explicit Vector3(float arr[3]);
 
 		std::string ToString() const;
 
@@ -41,7 +41,7 @@ namespace rtx
 		Vector3 operator*(const Vector3& v) const;
 		Vector3 operator/(const Vector3& v) const;
 
-		Vector3 operator-();
+		Vector3 operator-() const;
 
 		inline void Add(const Vector3& v);
 		inline void Sub(const Vector3& v);
@@ -53,14 +53,17 @@ namespace rtx
 		Vector3 Normal() const;
 		bool IsNear(const Vector3& vec, float tolerance) const;
 
-		static Vector3 Dot(const Vector3& v1, const Vector3& v2);
+		float Dot(const Vector3& v) const;
 		static float DotProduct(const Vector3& v1, const Vector3& v2);
+
+		Vector3 Cross(const Vector3& v) const;
 		static Vector3 CrossProduct(const Vector3& v1, const Vector3& v2);
+
 		static float AngleBetween(const Vector3& v1, const Vector3& v2);
 
-		static Vector3 Min(Vector3 a, Vector3 b);
-		static Vector3 Max(Vector3 a, Vector3 b);
+		static Vector3 Min(const Vector3& a, const Vector3& b);
+		static Vector3 Max(const Vector3& a, const Vector3& b);
 
-		static Vector3 Zero() { return Vector3(0.f, 0.f, 0.f); };
+		static Vector3 Zero() { return {0.f, 0.f, 0.f}; }
 	};
 }

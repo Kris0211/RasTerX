@@ -1,18 +1,17 @@
-#include "../include/Sphere.h"
+#include "../include/Sphere.hpp"
 
-#include <cmath>
 #include <sstream>
 
 namespace rtx
 {
-	bool Sphere::Hit(const Ray& ray, float min, float max) const
+	bool Sphere::Hit(const Ray& ray, const float min, const float max) const
 	{
-		const Vector3 oc = ray.GetOrigin() - this->_center;
-		const Vector3 dir = ray.GetDirection();
+		const Vector3 oc = ray.origin - this->center;
+		const Vector3 dir = ray.direction;
 
 		const float a = Vector3::DotProduct(dir, dir);
 		const float b = Vector3::DotProduct(oc, dir);
-		const float c = Vector3::DotProduct(oc, oc) - this->_radius * this->_radius;
+		const float c = Vector3::DotProduct(oc, oc) - this->radius * this->radius;
 
 		const float d = b * b - a * c;
 		if (d > 0)
@@ -31,7 +30,7 @@ namespace rtx
 	std::string Sphere::ToString() const
 	{
 		std::stringstream ss;
-		ss << "Center: " << this->_center.ToString() << "\nRadius: " << this->_radius;
+		ss << "Center: " << this->center.ToString() << "\nRadius: " << this->radius;
 		return ss.str();
 	}
 }

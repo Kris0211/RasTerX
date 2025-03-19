@@ -1,4 +1,4 @@
-#include "../include/Vector3.h"
+#include "../include/Vector3.hpp"
 
 #include <cmath>
 #include <stdexcept>
@@ -10,9 +10,9 @@ namespace rtx
 
 	Vector3::Vector3(const float x, const float y, const float z) : x(x), y(y), z(z) {}
 
-	Vector3::Vector3(const Vector3& v) : x(v.x), y(v.y), z(v.z) {}
+	Vector3::Vector3(const Vector3& v) = default;
 
-	Vector3::Vector3(std::vector<float> v) : x(v[0]), y(v[1]), z(v[2]) {}
+	Vector3::Vector3(const std::vector<float>& v) : x(v[0]), y(v[1]), z(v[2]) {}
 
 	Vector3::Vector3(float arr[3]) : x(arr[0]), y(arr[1]), z(arr[2]) {}
 
@@ -59,25 +59,25 @@ namespace rtx
 		this->z -= v.z;
 	}
 
-	Vector3 Vector3::operator+(float f) const
+	Vector3 Vector3::operator+(const float f) const
 	{
 		return { x + f, y + f, z + f };
 	}
 
-	Vector3 Vector3::operator-(float f) const
+	Vector3 Vector3::operator-(const float f) const
 	{
 		return { x - f, y - f, z - f };
 	}
 
 
-	void Vector3::operator+=(float f)
+	void Vector3::operator+=(const float f)
 	{
 		this->x += f;
 		this->y += f;
 		this->z += f;
 	}
 
-	void Vector3::operator-=(float f)
+	void Vector3::operator-=(const float f)
 	{
 		this->x -= f;
 		this->y -= f;
@@ -130,7 +130,7 @@ namespace rtx
 		return { this->x / v.x, this->y / v.y, this->z / v.z };
 	}
 
-	Vector3 Vector3::operator-()
+	Vector3 Vector3::operator-() const
 	{
 		Vector3 vec;
 		vec.x = -this->x;
@@ -195,21 +195,28 @@ namespace rtx
 		return *this / len;
 	}
 
-	bool Vector3::IsNear(const Vector3& vec, float tolerance) const
+	bool Vector3::IsNear(const Vector3& vec, const float tolerance) const
 	{
 		return std::abs(this->Length() - vec.Length()) < tolerance;
 	}
 
-	Vector3 Vector3::Dot(const Vector3& v1, const Vector3& v2)
+	float Vector3::Dot(const Vector3& v) const
 	{
-		return { v1.x * v2.x,
-			   v1.y * v2.y,
-			   v1.z * v2.z };
+		return (this->x * v.x) + (this->y * v.y) + (this->z * v.z);
 	}
 
 	float Vector3::DotProduct(const Vector3& v1, const Vector3& v2)
 	{
 		return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
+	}
+
+	Vector3 Vector3::Cross(const Vector3& v) const
+	{
+		return {
+			this->y * v.z - this->z * v.y,
+			this->z * v.x - this->x * v.z,
+			this->x * v.y - this->y * v.x
+		};
 	}
 
 	Vector3 Vector3::CrossProduct(const Vector3& v1, const Vector3& v2)
@@ -226,7 +233,7 @@ namespace rtx
 		return acos(DotProduct(v1, v2) / (v1.Length() * v2.Length()));
 	}
 
-	Vector3 Vector3::Min(Vector3 a, Vector3 b) 
+	Vector3 Vector3::Min(const Vector3& a, const Vector3& b) 
 	{
 		Vector3 result;
 		result.x = std::min(a.x, b.x);
@@ -235,7 +242,7 @@ namespace rtx
 		return result;
 	}
 
-	Vector3 Vector3::Max(Vector3 a, Vector3 b) 
+	Vector3 Vector3::Max(const Vector3& a, const Vector3& b) 
 	{
 		Vector3 result;
 		result.x = std::max(a.x, b.x);
