@@ -23,12 +23,12 @@ namespace rtx
 		this->normals[2] = n3;
 	}
 
+	// Moller–Trumbore intersection algorithm
 	bool Triangle::Intersects(const Ray& ray, Vector3& ref_IntersectionPoint) const
 	{
 		Vector3 AB = vertices[1] - vertices[0];
 		Vector3 AC = vertices[2] - vertices[0];
 		Vector3 normal = Vector3::CrossProduct(AB, AC);
-
 		float dot = Vector3::DotProduct(normal, ray.direction);
 		if (fabs(dot) < EPSILON)
 		{

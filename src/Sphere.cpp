@@ -1,30 +1,34 @@
 #include "../include/Sphere.hpp"
 
 #include <sstream>
+#include <iostream>
 
 namespace rtx
 {
-	bool Sphere::Hit(const Ray& ray, const float min, const float max) const
+	bool Sphere::Intersects(const Ray& ray, Vector3& ref_IntersectionPoint) const
 	{
-		const Vector3 oc = ray.origin - this->center;
+		const Vector3 oc = ray.origin - center;
 		const Vector3 dir = ray.direction;
 
-		const float a = Vector3::DotProduct(dir, dir);
-		const float b = Vector3::DotProduct(oc, dir);
-		const float c = Vector3::DotProduct(oc, oc) - this->radius * this->radius;
+		const float a = dir.Dot(dir);
+		const float b = oc.Dot(dir) * 2.f;
+		const float c = oc.Dot(oc) - radius * radius;
 
-		const float d = b * b - a * c;
-		if (d > 0)
-		{
-			const float dsqrt = std::sqrtf(d);
-			float tmp = (-b - dsqrt) / a;
-			if (tmp < max && tmp > min) return true;
+		const float d = b * b - 4 * a * c;
+		if (d < 0) // No intersection
+			return false;
 
-			tmp = (-b + dsqrt) / a;
-			if (tmp < max && tmp > min) return true;
-		}
+		const float d_sqrt = std::sqrtf(d);
+		
+		const float t1 = (-b - d_sqrt) / (2.f * a);
+		const float t2 = (-b + d_sqrt) / (2.f * a);
+		const float t = (t1 >= 0 ? t1 : t2); // Closest intersection point
 
-		return false;
+		if (t <= 0) // Intersections are behind the raycast
+			return false;
+
+		ref_IntersectionPoint = ray.origin + ray.direction * t;
+		return true;
 	}
 
 	std::string Sphere::ToString() const

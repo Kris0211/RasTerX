@@ -1,6 +1,6 @@
 #pragma once
-
 #include "Vector3.hpp"
+
 namespace rtx
 {
 	class Ray;
@@ -16,6 +16,6 @@ namespace rtx
 		Plane(float a, float b, float c, float d);
 		Plane(const Plane& plane);
 
-		bool Intersects(const Ray& ray, const float range) const;
+		bool Intersects(const Ray& ray, Vector3& ref_IntersectionPoint) const;
 	};
 }

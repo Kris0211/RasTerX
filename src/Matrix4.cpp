@@ -1,4 +1,5 @@
 #include "../include/Matrix4.hpp"
+#include "../include/Matrix3.hpp"
 
 #include <cstring>
 #include <iostream>
@@ -176,7 +177,7 @@ namespace rtx
 		}
 	}
 
-	Matrix4 Matrix4::Mul(const Matrix4& mat)
+	Matrix4 Matrix4::Mul(const Matrix4& mat) const
 	{
 		Matrix4 res;
 		for (int i = 0; i < 4; i++)
@@ -308,7 +309,7 @@ namespace rtx
 
 	void Matrix4::Transpose()
 	{
-		float tFields[4][4];
+		float tFields[4][4] = {};
 		for (int i = 0; i < 4; i++)
 		{
 			for (int k = 0; k < 4; k++)

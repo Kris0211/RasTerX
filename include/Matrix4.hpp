@@ -27,7 +27,7 @@ namespace rtx
 		void Add(const Matrix4& mat);
 		void Sub(const Matrix4& mat);
 		void Mul(float f);
-		Matrix4 Mul(const Matrix4& mat);
+		Matrix4 Mul(const Matrix4& mat) const;
 
 		float Det() const;
 

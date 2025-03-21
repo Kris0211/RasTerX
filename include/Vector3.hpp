@@ -48,8 +48,8 @@ namespace rtx
 		inline void Mul(float f);
 		inline void Div(float f);
 
-		inline float Length() const;
-		inline void Normalize();
+		float Length() const;
+		void Normalize();
 		Vector3 Normal() const;
 		bool IsNear(const Vector3& vec, float tolerance) const;
 
@@ -65,5 +65,9 @@ namespace rtx
 		static Vector3 Max(const Vector3& a, const Vector3& b);
 
 		static Vector3 Zero() { return {0.f, 0.f, 0.f}; }
+		static Vector3 One() { return { 1.f, 1.f, 1.f }; }
+		static Vector3 Forward() { return { 0.f, 0.f, 1.f }; }
+		static Vector3 Up() { return { 0.f, 1.f, 0.f }; }
+		static Vector3 Right() { return { 1.f, 0.f, 0.f }; }
 	};
 }

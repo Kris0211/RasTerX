@@ -17,7 +17,7 @@ namespace rtx
 		Sphere(const Vector3& v, const float r) : center(v), radius(r) {}
 		Sphere(const Sphere& s) = default;
 
-		bool Hit(const Ray& ray, float min, float max) const;
+		bool Intersects(const Ray& ray, Vector3& ref_IntersectionPoint) const;
 
 		std::string ToString() const;
 	};

@@ -14,6 +14,7 @@ namespace rtx
 		float distance;
 
 		Ray();
+		Ray(const Vector3& origin, const Vector3& destination);
 		Ray(const Vector3& origin, const Vector3& direction, const float distance);
 		Ray(const Ray& r) = default;
 

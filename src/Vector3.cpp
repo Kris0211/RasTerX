@@ -191,7 +191,7 @@ namespace rtx
 	Vector3 Vector3::Normal() const
 	{
 		const float len = this->Length();
-		if (len == 0.0f) return { 0, 0, 0 };
+		if (len == 0.0f) return { 0.f, 0.f, 0.f };
 		return *this / len;
 	}
 

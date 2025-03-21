@@ -27,17 +27,17 @@ namespace rtx
     Plane::Plane(const Plane& plane) = default;
 
 
-    bool Plane::Intersects(const Ray& ray, const float range = 0.f) const
+    bool Plane::Intersects(const Ray& ray, Vector3& ref_IntersectionPoint) const
     {
         float d = Vector3::DotProduct(ray.direction, this->n);
-        if (d == 0) 
+        if (fabs(d) < FLT_EPSILON) // d == 0
             return false;
 
         float t = Vector3::DotProduct(this->p - ray.origin, this->n) / d;
-        
-        if (t >= 0 && (range == 0.f || t < range)) 
-            return true;
+        if (t < 0)
+            return false;
 
-        return false;
+        ref_IntersectionPoint = ray.origin + ray.direction * t;
+        return true;
     }
 }

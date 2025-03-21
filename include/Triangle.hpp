@@ -16,6 +16,6 @@ namespace rtx
 		Triangle(const Vector3& v1, const Vector3& v2, const Vector3& v3,
 			const Vector3& n1, const Vector3& n2, const Vector3& n3);
 
-		bool Intersects(const Ray& ray, Vector3& outIntersectionPoint) const;
+		bool Intersects(const Ray& ray, Vector3& ref_IntersectionPoint) const;
 	};
 }
