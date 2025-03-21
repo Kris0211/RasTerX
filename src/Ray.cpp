@@ -4,7 +4,8 @@ namespace rtx
 	Ray::Ray() : origin(Vector3::Zero()), distance(0.f)
 	{}
 
-	Ray::Ray(const Vector3& origin, const Vector3& direction, const float distance) : origin(origin), direction(direction), distance(distance)
+	Ray::Ray(const Vector3& origin, const Vector3& direction, const float distance) 
+		: origin(origin), direction(direction), distance(distance)
 	{}
 
 	std::string Ray::ToString() const
@@ -14,5 +15,4 @@ namespace rtx
 			<< "\nDestination: " << this->destination.ToString() << "\nDistance: " << this->distance;
 		return ss.str();
 	}
-
 }

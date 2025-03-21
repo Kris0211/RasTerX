@@ -16,6 +16,6 @@ namespace rtx
 		Plane(float a, float b, float c, float d);
 		Plane(const Plane& plane);
 
-		//IntersectionResult Intersects(const Ray& ray, const float range);
+		bool Intersects(const Ray& ray, const float range) const;
 	};
 }
