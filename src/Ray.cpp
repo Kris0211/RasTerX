@@ -5,10 +5,11 @@ namespace rtx
 	{}
 
 	Ray::Ray(const Vector3& origin, const Vector3& destination)
-		: origin(Vector3::Zero()), destination(destination)
+		: origin(origin), destination(destination)
 	{
 		direction = (destination - origin).Normal();
-		distance = (destination - origin).Length();
+		//distance = (destination - origin).Length();
+		distance = FLT_MAX;
 	}
 
 	Ray::Ray(const Vector3& origin, const Vector3& direction, const float distance) 
