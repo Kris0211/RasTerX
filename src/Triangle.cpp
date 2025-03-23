@@ -35,7 +35,7 @@ namespace rtx
 			return false;
 		}
 
-		float t = Vector3::DotProduct(normal, vertices[0] - ray.origin) / dot;
+		float t = Vector3::DotProduct(normal, ray.origin - vertices[0]) / dot;
 		if (t < 0.f)
 		{
 			return false;
