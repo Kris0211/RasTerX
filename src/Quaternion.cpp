@@ -23,6 +23,16 @@ namespace rtx
 		return Quaternion(static_cast<float>(cos(angle * -0.5)), normAxis);
 	}
 
+	Vector3 Quaternion::RotateVectorByQuaternion(const Vector3& v)
+	{
+		// Convert vector to a pure quaternion
+		Quaternion p(0, v);
+		Quaternion q = GetUnitNormQuaternion(*this);
+		Quaternion rotatedVector = q * p * q.Invert(q);
+
+		return rotatedVector.im;
+	}
+
 	std::string Quaternion::ToString() const
 	{
 		std::stringstream ss;
@@ -56,6 +66,26 @@ namespace rtx
 			return Quaternion(
 				(re * q.re + Vector3::DotProduct(im, q.im)) / denominator,
 				(q.im * -re + im * q.re - Vector3::CrossProduct(im, q.im)) / denominator
+			);
+		}
+		else throw std::logic_error("Cannot divide quat!");
+	}
+
+	Quaternion Quaternion::operator*(const float& f) const
+	{
+		return Quaternion(
+			re * f,
+			im * f
+		);
+	}
+
+	Quaternion Quaternion::operator/(const float& f) const
+	{
+		if (f != 0)
+		{
+			return Quaternion(
+				re / f,
+				im / f
 			);
 		}
 		else throw std::logic_error("Cannot divide quat!");
@@ -172,5 +202,29 @@ namespace rtx
 	float Quaternion::GetMagnitude(const Quaternion& q)
 	{
 		return q.Magnitude();
+	}
+
+	void Quaternion::Normalize()
+	{
+		if (Magnitude() != 0)
+		{
+			float norm = 1 / Magnitude();
+
+			re *= norm;
+			im *= norm;
+		}
+	}
+
+	void Quaternion::UnitNormQuaternion()
+	{
+		float angle = re;
+		im.Normalize();
+		re = cosf(angle * 0.5);
+		im = im * sinf(angle * 0.5);
+	}
+
+	Quaternion Quaternion::GetUnitNormQuaternion(const Quaternion& q)
+	{
+		return Quaternion(cosf(q.re*0.5), q.im.Normal() * sinf(q.re * 0.5));
 	}
 }

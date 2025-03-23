@@ -20,12 +20,17 @@ namespace rtx
 		// Convert angle-axis rotation to quat
 		static Quaternion RotationQuaternion(double angle, const Vector3& axis);
 
+		Vector3 RotateVectorByQuaternion(const Vector3& v);
+
 		std::string ToString() const;
 
 		Quaternion operator+(const Quaternion& q) const;
 		Quaternion operator-(const Quaternion& q) const;
 		Quaternion operator*(const Quaternion& q) const;
 		Quaternion operator/(const Quaternion& q) const;
+
+		Quaternion operator*(const float& q) const;
+		Quaternion operator/(const float& q) const;
 
 		void operator+=(const Quaternion& q);
 		void operator-=(const Quaternion& q);
@@ -51,5 +56,10 @@ namespace rtx
 
 		float Magnitude() const;
 		static float GetMagnitude(const Quaternion& q);
+
+		void Normalize();
+
+		void UnitNormQuaternion();
+		Quaternion GetUnitNormQuaternion(const Quaternion& q);
 	};
 }
