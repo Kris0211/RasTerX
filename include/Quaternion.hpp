@@ -1,9 +1,18 @@
 #pragma once
 #include "Vector3.hpp"
-#include "Vector4.hpp"
+#include "MathUtils.hpp"
 
 namespace rtx
 {
+	class Vector4;
+
+	struct EulerAngles
+	{
+		float roll;
+		float pitch;
+		float yaw;
+	};
+
 	class Quaternion
 	{
 	public:
@@ -49,7 +58,7 @@ namespace rtx
 		Vector3 Im() const;
 
 		void Inverted();
-		static Quaternion Invert(const Quaternion& q);
+		static Quaternion InvertQuaternion(const Quaternion& q);
 
 		void Conjugate();
 		static Quaternion GetConjugate(const Quaternion& q);
@@ -61,5 +70,10 @@ namespace rtx
 
 		void UnitNormQuaternion();
 		Quaternion GetUnitNormQuaternion(const Quaternion& q);
+
+		static Quaternion EulerToQuaternion(float roll, float pitch, float yaw);
+		static Quaternion EulerToQuaternion(const EulerAngles& ea);
+
+		static EulerAngles QuaternionToEuler(const Quaternion& q);
 	};
 }

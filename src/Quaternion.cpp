@@ -1,4 +1,5 @@
 #include "../include/Quaternion.hpp"
+#include "../include/Vector4.hpp"
 
 #include <sstream>
 #include <stdexcept>
@@ -28,7 +29,7 @@ namespace rtx
 		// Convert vector to a pure quaternion
 		Quaternion p(0, v);
 		Quaternion q = GetUnitNormQuaternion(*this);
-		Quaternion rotatedVector = q * p * q.Invert(q);
+		Quaternion rotatedVector = q * p * q.InvertQuaternion(q);
 
 		return rotatedVector.im;
 	}
@@ -170,7 +171,7 @@ namespace rtx
 		else throw std::logic_error("Cannot invert quat!");
 	}
 
-	Quaternion Quaternion::Invert(const Quaternion& q)
+	Quaternion Quaternion::InvertQuaternion(const Quaternion& q)
 	{
 		Quaternion ret = q;
 		ret.Inverted();
@@ -208,7 +209,7 @@ namespace rtx
 	{
 		if (Magnitude() != 0)
 		{
-			float norm = 1 / Magnitude();
+			float norm = 1.f / Magnitude();
 
 			re *= norm;
 			im *= norm;
@@ -226,5 +227,49 @@ namespace rtx
 	Quaternion Quaternion::GetUnitNormQuaternion(const Quaternion& q)
 	{
 		return Quaternion(cosf(q.re*0.5), q.im.Normal() * sinf(q.re * 0.5));
+	}
+
+
+	Quaternion Quaternion::EulerToQuaternion(float roll, float pitch, float yaw)
+	{
+		float cr = cos(roll * 0.5f);
+		float sr = sin(roll * 0.5f);
+		float cp = cos(pitch * 0.5f);
+		float sp = sin(pitch * 0.5f);
+		float cy = cos(yaw * 0.5f);
+		float sy = sin(yaw * 0.5f);
+
+		float w = cr * cp * cy + sr * sp * sy;
+		float x = sr * cp * cy - cr * sp * sy;
+		float y = cr * sp * cy + sr * cp * sy;
+		float z = cr * cp * sy - sr * sp * cy;
+		
+		return Quaternion(w, Vector3(x, y, z));
+	}
+
+	Quaternion Quaternion::EulerToQuaternion(const EulerAngles& ea)
+	{
+		return Quaternion::EulerToQuaternion(ea.roll, ea.pitch, ea.yaw);
+	}
+
+	EulerAngles Quaternion::QuaternionToEuler(const Quaternion& q)
+	{
+		EulerAngles angles = {};
+
+		const Vector3 q_im = q.Im();
+
+		float sinr_cosp = 2 * (q.Re() * q_im.x + q_im.y * q_im.z);
+		float cosr_cosp = 1 - 2 * (q_im.x * q_im.x + q_im.y * q_im.y);
+		angles.roll = std::atan2f(sinr_cosp, cosr_cosp);
+
+		float sinp = std::sqrt(1 + 2 * (q.Re() * q_im.y - q_im.x * q_im.z));
+		float cosp = std::sqrt(1 - 2 * (q.Re() * q_im.y - q_im.x * q_im.z));
+		angles.pitch = 2 * std::atan2f(sinp, cosp) - PI / 2;
+
+		float siny_cosp = 2 * (q.Re() * q_im.z + q_im.x * q_im.y);
+		float cosy_cosp = 1 - 2 * (q_im.y * q_im.y + q_im.z * q_im.z);
+		angles.yaw = std::atan2f(siny_cosp, cosy_cosp);
+
+		return angles;
 	}
 }
