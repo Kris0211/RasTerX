@@ -20,9 +20,11 @@ namespace rtx
 
 		const float d_sqrt = std::sqrtf(d);
 		
-		const float t1 = (-b - d_sqrt) / (2.f * a);
-		const float t2 = (-b + d_sqrt) / (2.f * a);
-		const float t = (t1 >= 0 ? t1 : t2); // Closest intersection point
+		float t = (-b - d_sqrt) / (2.f * a);
+		if (t < FLT_EPSILON)
+		{
+			t = (-b + d_sqrt) / (2.f * a);
+		}
 
 		if (t <= 0) // Intersections are behind the raycast
 			return false;
