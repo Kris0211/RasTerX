@@ -87,7 +87,7 @@ namespace rtx
 		return matrix;
 	}
 
-	Matrix4 Matrix4::operator*(const Matrix4& mat)
+	Matrix4 Matrix4::operator*(const Matrix4& mat) const
 	{
 		Matrix4 res;
 		for (int i = 0; i < 4; i++)

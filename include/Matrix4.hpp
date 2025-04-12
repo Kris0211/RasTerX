@@ -22,7 +22,8 @@ namespace rtx
 		Matrix4 operator+(const Matrix4& mat);
 		Matrix4 operator-(const Matrix4& mat);
 		Matrix4 operator*(float f);
-		Matrix4 operator*(const Matrix4& mat);
+		Matrix4 operator*(const Matrix4& mat) const;
+
 		Vector4 operator*(const Vector4& vec) const;
 		Vector3 operator*(const Vector3& vec);
 
