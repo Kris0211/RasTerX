@@ -30,6 +30,9 @@ namespace rtx
 		void operator*=(float f);
 		void operator/=(float f);
 
+		float& operator[](int index);
+		const float& operator[](int index) const;
+
 		void Add(const Vector4& v);
 		void Sub(const Vector4& v);
 		void Mul(float f);

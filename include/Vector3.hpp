@@ -43,6 +43,9 @@ namespace rtx
 
 		Vector3 operator-() const;
 
+		float& operator[](int index);
+		const float& operator[](int index) const;
+
 		inline void Add(const Vector3& v);
 		inline void Sub(const Vector3& v);
 		inline void Mul(float f);

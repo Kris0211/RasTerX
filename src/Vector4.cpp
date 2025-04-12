@@ -91,6 +91,30 @@ namespace rtx
 		w *= f;
 	}
 
+	float& Vector4::operator[](int index)
+	{
+		switch (index) 
+		{
+			case 0: return x;
+			case 1: return y;
+			case 2: return z;
+			case 3: return w;
+			default: throw std::out_of_range("Vector4: index out of range");
+		}
+	}
+
+	const float& Vector4::operator[](int index) const
+	{
+		switch (index)
+		{
+			case 0: return x;
+			case 1: return y;
+			case 2: return z;
+			case 3: return w;
+			default: throw std::out_of_range("Vector4: index out of range");
+		}
+	}
+
 	void Vector4::Add(const Vector4& v)
 	{
 		this->x += v.x;

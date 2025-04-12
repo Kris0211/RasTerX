@@ -3,6 +3,7 @@
 
 namespace rtx
 {
+	// Row-major float4x4
 	class Matrix4
 	{
 	public:
@@ -11,6 +12,7 @@ namespace rtx
 		Matrix4() = default;
 		explicit Matrix4(float fields[4][4]);
 		explicit Matrix4(float fields[16]);
+		Matrix4(const Vector4& row1, const Vector4& row2, const Vector4& row3, const Vector4& row4);
 		Matrix4(const Matrix4& mat);
 		~Matrix4() = default;
 
@@ -36,6 +38,8 @@ namespace rtx
 
 		static Matrix4 TransposedMatrix(const Matrix4& mat);
 		void Transpose();
+
+		void SetRow(const int row, const Vector4& newRow);
 
 		void SetTranslation(const Vector3& trans);
 

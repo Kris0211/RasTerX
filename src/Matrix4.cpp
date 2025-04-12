@@ -28,6 +28,18 @@ namespace rtx
 		}
 	}
 
+	Matrix4::Matrix4(const Vector4& row1, const Vector4& row2, const Vector4& row3, const Vector4& row4)
+	{
+		const Vector4 rows[4] = { row1, row2, row3, row4 };
+		for (int i = 0; i < 4; ++i)
+		{
+			for (int k = 0; k < 4; ++k)
+			{
+				fields[i][k] = rows[i][k];
+			}
+		}
+	}
+
 	Matrix4::Matrix4(const Matrix4& mat)
 	{
 		memcpy(fields, mat.fields, 16 * sizeof(float));
@@ -318,6 +330,17 @@ namespace rtx
 			}
 		}
 		memcpy(fields, tFields, sizeof(float) * 16);
+	}
+
+	void Matrix4::SetRow(const int row, const Vector4& newRow)
+	{
+		if (row >= 0 && row < 4)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				this->fields[row][i] = newRow[i];
+			}
+		}
 	}
 
 	void Matrix4::SetTranslation(const Vector3& trans)

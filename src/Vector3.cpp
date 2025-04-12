@@ -139,6 +139,28 @@ namespace rtx
 		return vec;
 	}
 
+	float& Vector3::operator[](int index)
+	{
+		switch (index)
+		{
+			case 0: return x;
+			case 1: return y;
+			case 2: return z;
+			default: throw std::out_of_range("Vector3: index out of range");
+		}
+	}
+
+	const float& Vector3::operator[](int index) const
+	{
+		switch (index)
+		{
+			case 0: return x;
+			case 1: return y;
+			case 2: return z;
+			default: throw std::out_of_range("Vector3: index out of range");
+		}
+	}
+
 	void Vector3::Add(const Vector3& v)
 	{
 		this->x += v.x;
