@@ -220,13 +220,13 @@ namespace rtx
 	{
 		float angle = re;
 		im.Normalize();
-		re = cosf(angle * 0.5);
-		im = im * sinf(angle * 0.5);
+		re = cosf(angle * 0.5f);
+		im = im * sinf(angle * 0.5f);
 	}
 
 	Quaternion Quaternion::GetUnitNormQuaternion(const Quaternion& q)
 	{
-		return Quaternion(cosf(q.re*0.5), q.im.Normal() * sinf(q.re * 0.5));
+		return Quaternion(cosf(q.re * 0.5f), q.im.Normal() * sinf(q.re * 0.5f));
 	}
 
 
