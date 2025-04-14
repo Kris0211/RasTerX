@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../include/Vector3.hpp"
 #include <algorithm>
 #include <cmath>
 
@@ -42,6 +43,21 @@ namespace rtx
         static float RadToDeg(const float radians) 
         {
             return radians * (180.0f / PI);
+        }
+
+        static Vector3 Refract(Vector3 I, Vector3 N, const float& ior)
+        {
+            float cosine = std::fmin(-I.Dot(N), 1.f);
+
+            Vector3 perp = (I + N * cosine) * ior;
+            Vector3 paral = N * -std::sqrt(std::fabs(1.f - perp.Length() * perp.Length()));
+            
+            return perp + paral;
+        }
+
+        static Vector3 Reflect(Vector3 I, Vector3 N)
+        {
+            return I - N * 2 * I.Dot(N);
         }
     };
 }
