@@ -4,7 +4,9 @@
 #include <algorithm>
 #include <cmath>
 
-constexpr float PI = 3.14159265358979323846;
+constexpr float PI = 3.14159265358979323846f;
+constexpr float HALF_PI = PI / 180.f;
+constexpr float TAU = 2.f * PI;
 
 namespace rtx
 {
