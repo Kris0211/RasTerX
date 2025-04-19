@@ -57,8 +57,12 @@ namespace rtx
 
 	void Matrix4::LoadIdentity()
 	{
-		Matrix4 ident = Identity();
-		memcpy(fields, ident.fields, sizeof(float) * 16);
+		memset(fields, 0, sizeof(float) * 16);
+
+		fields[0][0] = 1.0f;
+		fields[1][1] = 1.0f;
+		fields[2][2] = 1.0f;
+		fields[3][3] = 1.0f;
 	}
 
 	Matrix4 Matrix4::operator+(const Matrix4& mat)
@@ -68,7 +72,7 @@ namespace rtx
 		{
 			for (int k = 0; k < 4; k++)
 			{
-				matrix.fields[i][k] = this->fields[i][k] + fields[i][k];
+				matrix.fields[i][k] = this->fields[i][k] + mat.fields[i][k];
 			}
 		}
 		return matrix;
@@ -81,7 +85,7 @@ namespace rtx
 		{
 			for (int k = 0; k < 4; k++)
 			{
-				matrix.fields[i][k] = this->fields[i][k] - fields[i][k];
+				matrix.fields[i][k] = this->fields[i][k] - mat.fields[i][k];
 			}
 		}
 		return matrix;
@@ -137,19 +141,19 @@ namespace rtx
 		Vector3 ret;
 
 		ret.x = fields[0][0] * vec.x
-			+ fields[0][1] * vec.x
-			+ fields[0][2] * vec.x
-			+ fields[0][3] * vec.x;
+			+ fields[0][1] * vec.y
+			+ fields[0][2] * vec.z
+			+ fields[0][3] * 1.f;
 
-		ret.y = fields[1][0] * vec.y
+		ret.y = fields[1][0] * vec.x
 			+ fields[1][1] * vec.y
-			+ fields[1][2] * vec.y
-			+ fields[1][3] * vec.y;
+			+ fields[1][2] * vec.z
+			+ fields[1][3] * 1.f;
 
-		ret.z = fields[2][0] * vec.z
-			+ fields[2][1] * vec.z
+		ret.z = fields[2][0] * vec.x
+			+ fields[2][1] * vec.y
 			+ fields[2][2] * vec.z
-			+ fields[2][3] * vec.z;
+			+ fields[2][3] * 1.f;
 
 		return ret;
 	}
