@@ -45,19 +45,39 @@ namespace rtx
             return radians * (180.0f / PI);
         }
 
-        static Vector3 Refract(Vector3 I, Vector3 N, const float& ior)
-        {
-            float cosine = std::fmin(-I.Dot(N), 1.f);
 
-            Vector3 perp = (I + N * cosine) * ior;
-            Vector3 paral = N * -std::sqrt(std::fabs(1.f - perp.Length() * perp.Length()));
-            
-            return perp + paral;
+        static Vector3 Refract(const Vector3& I, const Vector3& N, const float& ior) 
+        {
+            Vector3 normalizedI = I.Normal();
+            Vector3 normalizedN = N.Normal();
+
+            float cosi = -normalizedI.Dot(normalizedN);
+            float etai = 1.0f;
+            float etat = ior;
+
+            if (cosi < 0) 
+            {
+                cosi = -cosi;
+                std::swap(etai, etat);
+                normalizedN = -normalizedN;
+            }
+
+            const float eta = etai / etat;
+            const float k = 1.0f - eta * eta * (1.0f - cosi * cosi);
+
+            if (k < 0) 
+            {
+                return Reflect(I, N);
+            }
+
+            return normalizedI * eta + normalizedN * (eta * cosi - sqrtf(k));
         }
 
         static Vector3 Reflect(Vector3 I, Vector3 N)
         {
-            return I - N * 2 * I.Dot(N);
+            Vector3 normalizedI = I.Normal();
+            Vector3 normalizedN = N.Normal();
+            return normalizedI - normalizedN * 2.0f * normalizedI.Dot(normalizedN);
         }
     };
 }

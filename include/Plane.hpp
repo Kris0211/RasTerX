@@ -12,7 +12,7 @@ namespace rtx
 		Vector3 p;
 
 		Plane() = default;
-		Plane(const Vector3& n, const Vector3& p);
+		Plane(const Vector3& p, const Vector3& n);
 		Plane(float a, float b, float c, float d);
 		Plane(const Plane& plane);
 
